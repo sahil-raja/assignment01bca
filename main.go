@@ -1,3 +1,4 @@
+// importing package for main
 package main
 
 import (
@@ -14,9 +15,10 @@ import (
 type block struct{
 	transaction 	string
 	nonce 			int
-	previous_hash	string
+	previousHash	string
 }
 
+// Function for creating new block
 func NewBlock(transaction string, nonce int, previousHash string) *block {
 	b := new(block)
 	b.transaction = transaction
@@ -35,8 +37,9 @@ func(ls *BlockList) CreateBlock(transaction string, nonce int, previousHash stri
 	return b
 }
 
+//Function to create hash of block
 func CreateHash(b block) string {
-	var pkd_str string
+	var pkdStr string
 	pkd_str = b.transaction + strconv.Itoa(b.nonce) +  b.previous_hash
 	return fmt.Sprintf("%x", sha256.Sum256([]byte(pkd_str)))
 }
@@ -56,7 +59,7 @@ func changeBlock(ledger BlockList, transaction string, nonce int, search int){
 	ledger.list[search].nonce = nonce
 	fmt.Printf("Transaction has been updated!\n")
 }
-
+// Function to verify the integrity of chain
 func VerifyChain(ledger BlockList) bool{
 	for i:=1; i<len(ledger.list); i++{
 		var temp string
@@ -91,7 +94,7 @@ func main(){
 	if option==1{
 		if len(ledger.list) == 0{
 			fmt.Printf("Please enter the value for current transaction: \n")
-			current_transaction, err := in.ReadString('\n')
+			currentTransaction, err := in.ReadString('\n')
 			_ = err
 			nonce = rand.Intn(1000 - 1 + 1) + 1
 			previousHash = ""
@@ -111,11 +114,11 @@ func main(){
 		listBlocks(*ledger)	
 	}else if option==3{
 		var search int
-		var new_transaction string
+		var newTransaction string
 		fmt.Printf("Please enter Transaction Id to change: \n")
 		fmt.Scanln(&search)
 		fmt.Printf("Please enter the value for new transaction: \n")
-		new_transaction, err := in.ReadString('\n')
+		newTransaction, err := in.ReadString('\n')
 		_ = err
 		fmt.Printf("Please enter the value for new nonce: \n")
 		fmt.Scanln(&nonce)
