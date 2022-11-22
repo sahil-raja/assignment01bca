@@ -27,10 +27,12 @@ func NewBlock(transaction string, nonce int, previousHash string) *block {
 	return b
 }
 
+// List for all blocks
 type BlockList struct {
 	list []*block
 }
 
+// Function to create the block and append it to the block list
 func(ls *BlockList) CreateBlock(transaction string, nonce int, previousHash string)*block {
 	b := NewBlock(transaction, nonce, previousHash)
 	ls.list = append(ls.list, b)
@@ -102,7 +104,7 @@ func main(){
 			counter++
 		}else{
 			fmt.Printf("Please enter the value for current transaction: \n")
-			current_transaction, err := in.ReadString('\n')
+			currentTransaction, err := in.ReadString('\n')
 			_ = err
 			nonce = rand.Intn(1000 - 1 + 1) + 1
 			previousHash = CreateHash(*ledger.list[counter-1])
